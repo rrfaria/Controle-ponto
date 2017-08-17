@@ -4,7 +4,12 @@
 
 > Chrome app
 
-Instalar: [Controle de banco de horas](https://chrome.google.com/webstore/detail/controle-de-banco-de-hora/pfifkcaekcnananahibcebeeknnlfhna?hl=pt-BR) :clock10:
+Instalar: 
+
+Baixe o app do git na sua maquina
+va nas extensões do chorme clique em "Carregar Extensão Expandida"
+procure pela pasta do projeto e então em aps do chrome abra o app. Depois em outra guia abra o relatório
+do convenia e clique em "Importar dados para CP" Botão verde
 
 ![](https://raw.github.com/samuelteixeiras/Controle-ponto/master/res/img/image-example.png)
 
@@ -15,6 +20,9 @@ Esta extensão é baseada no codigo de: Renato Herculano Menegasso
 [https://github.com/renatomenegasso](https://github.com/renatomenegasso)
 
 
-ChangeLog:
-2.0 - Adicionado importar dados da empresa convenia
+## Changelog
+
+### - 2.0
+Adicionado importar dados da empresa convenia
+
 1.4 versão do Renato

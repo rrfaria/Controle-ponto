@@ -5,6 +5,7 @@ chrome.runtime.onMessage.addListener(
     //             "from the extension");
     if (request.type == "UPDATE_FROM_CONVENIA"){
       localStorage.setItem(request.dia, $.toJSON(request.data));
+      location.reload();
       sendResponse({import: "ok"});
     }
   });
