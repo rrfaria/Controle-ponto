@@ -1,24 +1,53 @@
 {
-  "manifest_version": 2,
-  "name": "Controle de banco de horas",
-  "description": "Aplicativo utilizado para controle de banco de horas",
-  "version": "1.4",
-  "app": {
-    "launch": {
-      "local_path": "main.html"
-    }
-  },
-  "icons": {
-    "16": "res/icon_16.png",
-    "24": "res/icon_24.png",
-    "128": "res/icon_128.png"
-  },
-  "permissions": [
-    "unlimited_storage",
-    "notifications"
-  ],
-  "web_accessible_resources": [
-    "res/icon_128.png"
-  ],
-  "background": { "scripts": ["libs/jquery-1.9.0.min.js","js/notification.js"] }
+	"manifest_version": 2,
+	"name": "Controle de ponto",
+	"description": "Aplicativo utilizado para controle de banco de horas. Recriado apartir de https://github.com/renatomenegasso",
+	"version": "2.0",
+	"app": {
+		"launch": {
+			"local_path": "main.html"
+		}
+	},
+	"icons": {
+		"16": "res/icon_16.png",
+		"24": "res/icon_24.png",
+		"128": "res/icon_128.png"
+	},
+	"permissions": [
+		"unlimited_storage",
+		"notifications",
+		"clipboardRead",
+		"clipboardWrite",
+		"contextMenus",
+		"cookies",
+		"storage",
+		"idle",
+		"webRequest",
+		"tabs",
+		"activeTab",
+		"*://rh.convenia.com.br/painel/funcionario/ponto/ver/*"
+	],
+	"web_accessible_resources": [
+		"res/icon_128.png"
+	],
+	"background": {
+		"scripts":[
+			"libs/jquery-1.9.0.min.js",
+			"js/notification.js",
+			"js/bg/background.js"
+			]
+		},
+	"content_scripts": [
+		{
+			"matches": [
+				"*://*.convenia.com.br/painel/funcionario/ponto/ver/*"
+			],
+			"js": [
+				"libs/jquery-1.9.0.min.js",
+				"libs/jquery.json-2.3.min.js",
+				"js/hrs.convenia.js"
+			],
+			"persistent": false
+		}
+	]
 }

@@ -12,7 +12,7 @@ hrs.helpers.number = {
 
 hrs.helpers.dateTime = (function(helpers){
 	var weekDays = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'],
-	 	months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+	 	months = ['Janeiro', 'Fevereiro', 'MarÃ§o', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 			
 	var SAB = 6, DOM = 0;
 	var public = {};
