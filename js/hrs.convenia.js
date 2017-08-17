@@ -3,7 +3,6 @@
         $('.btns.acao p').append('<div class="btn btn-success cp-import">Importar dados para CP</div>');
 
         $('.cp-import').on('click', function () {
-            console.log('clicou');
             $('tr.ok').each(function(){
                 var dia= $(this).find('td:first-child').text();
                 dia = dia.substr(dia.indexOf(",") + 1);
@@ -39,7 +38,7 @@
                     "ausent":false
                 }
                 chrome.runtime.sendMessage({ type: "UPDATE_FROM_CONVENIA", data: dados, dia:keyDia}, function(response) {
-                    console.log(response.import);
+                    //console.log(response.import);
                 });
             });
         });
