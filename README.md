@@ -8,7 +8,7 @@ Instalar:
 
 Baixe o app do git na sua maquina
 va nas extensões do chorme clique em "Carregar Extensão Expandida"
-procure pela pasta do projeto e então em aps do chrome abra o app. Depois em outra guia abra o relatório
+procure pela pasta do projeto e então em apps do chrome abra o app. Depois em outra guia abra o relatório
 do convenia e clique em "Importar dados para CP" Botão verde
 
 ![](https://raw.github.com/samuelteixeiras/Controle-ponto/master/res/img/image-example.png)
