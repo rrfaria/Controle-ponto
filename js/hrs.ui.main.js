@@ -38,6 +38,8 @@ hrs.ui.main = (function($, helpers, dao){
 	function updateInfo($row, rowData){
 		var totals = dao.calculateTotals(currentDate.getMonth(), currentDate.getFullYear());
 		$("#extra").html(totals.extra.toString());
+		//define o texto no icone com valor de horas totais
+		chrome.browserAction.setBadgeText({text: totals.extra.toString()});
 		$("#extra-month").html(totals.extraMonth.toString());
 		$("#month-name").html(helpers.dateTime.formatDate(currentDate, '#MM / #yyyy'));
 		

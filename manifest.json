@@ -1,12 +1,17 @@
 {
 	"manifest_version": 2,
 	"name": "Controle de ponto",
-	"description": "Aplicativo utilizado para controle de banco de horas. Recriado apartir de https://github.com/renatomenegasso",
+	"description": "Aplicativo utilizado para controle de banco de horas.",
 	"version": "2.0",
-	"app": {
-		"launch": {
-			"local_path": "main.html"
-		}
+
+	"options_ui": {
+		// Required.
+		"page": "options.html",
+		// Recommended.
+		"chrome_style": true
+	},
+	"browser_action":{
+		"default_popup": "popup.html"
 	},
 	"icons": {
 		"16": "res/icon_16.png",
@@ -34,9 +39,18 @@
 		"scripts":[
 			"libs/jquery-1.9.0.min.js",
 			"js/notification.js",
+			"libs/jquery.json-2.3.min.js",
+			"libs/jquery.maskedinput-1.3.js",
+			"js/extensions.js",
+			"js/hrs.helpers.js",
+			"js/hrs.dao.js",
+			"js/hrs.timestamp.js",
+			"js/hrs.ui.month.js",
+			"js/hrs.ui.holiday.js",
+			"js/hrs.ui.main.js",
 			"js/bg/background.js"
-			]
-		},
+		]
+	},
 	"content_scripts": [
 		{
 			"matches": [

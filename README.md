@@ -26,3 +26,12 @@ Esta extensão é baseada no codigo de: Renato Herculano Menegasso
 Adicionado importar dados da empresa convenia
 
 1.4 versão do Renato
+
+
+## Todo
+
+- Converter para popup options
+- Melhorar interface visual
+- Adicionar idiomas - [Doc](https://developer.chrome.com/extensions/i18n)
+- Converter para React.js
+- Converter para [smacss](https://smacss.com/)
