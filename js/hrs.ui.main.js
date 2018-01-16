@@ -3,12 +3,12 @@ hrs.ui = window.hrs.ui || {};
 
 hrs.ui.main = (function($, helpers, dao){
 	var public = {};
-	
+
 	var currentDate = null,
 		currentMonth = null,
 		$container = null,
 		lightboxIndex = 3;
-	
+
 	public.init = function($elm){
 		$container = $elm;
 		currentDate = new Date();
@@ -20,21 +20,21 @@ hrs.ui.main = (function($, helpers, dao){
 		holidays();
 		exportPdf();
 	};
-	
+
 	function buildMonth(){
 		currentMonth = new hrs.ui.month(currentDate.getMonth(), currentDate.getFullYear());
 		currentMonth.setDao(dao);
 		currentMonth.setUpdatedRowCallback(updateInfo);
 		currentMonth.print($container);
-		
+
 		$("#main-table tr").each(function(){
 			var $row = $(this);
 			formatValue($row.find('.total, .excedente'), $row.find('.excedente').html());
 		});
-		
+
 		updateInfo();
 	}
-	
+
 	function updateInfo($row, rowData){
 		var totals = dao.calculateTotals(currentDate.getMonth(), currentDate.getFullYear());
 		$("#extra").html(totals.extra.toString());
@@ -42,14 +42,14 @@ hrs.ui.main = (function($, helpers, dao){
 		chrome.browserAction.setBadgeText({text: totals.extra.toString()});
 		$("#extra-month").html(totals.extraMonth.toString());
 		$("#month-name").html(helpers.dateTime.formatDate(currentDate, '#MM / #yyyy'));
-		
+
 		formatValue($("#extra"), totals.extra.toString());
 		formatValue($("#extra-month"), totals.extraMonth.toString());
-		
+
 		if(rowData != undefined){
 			formatValue($row.find('.total, .excedente'), rowData.excedente);
 		}
-		
+
 		$("#entrance-avg").html(helpers.dateTime.formatDate(totals.avgEntrance, '#hh#m'));
 		$("#exit-avg").html(helpers.dateTime.formatDate(totals.avgExit, '#hh#m'));
 
@@ -63,20 +63,20 @@ hrs.ui.main = (function($, helpers, dao){
 			$("#negative-days")
 				.show()
 				.find("#days-to-pay").html(totals.totalExtraDays);
-				
+
 			$("#positive-days").hide();
 		}
 
 		$("#ausent-days").html(totals.ausentDays);
 	}
-	
+
 	function formatValue($target, value) {
-		var isNegative = (typeof value == 'string') ? value.indexOf('-') > -1 : value < 0; 
-		
+		var isNegative = (typeof value == 'string') ? value.indexOf('-') > -1 : value < 0;
+
 		var fn = isNegative ? 'addClass' : 'removeClass';
 		$target[fn]('negative-hours');
 	}
-	
+
 	function settings(){
 		var settings = dao.loadSettings();
 		$("#total-work").val(settings.totalWork).change(saveSettings);
@@ -90,29 +90,29 @@ hrs.ui.main = (function($, helpers, dao){
 
 		$utilDaysChecks.change(saveSettings);
 	}
-	
+
 	function openLightbox(id){
-		var $elm = $(id); 
+		var $elm = $(id);
 		$elm.fadeIn().css('z-index', lightboxIndex ++);
-		
+
 		var l = ($(window).width() - $elm.width()) / 2,
 			t = ($(window).height() - $elm.height()) / 2;
-		
+
 		$elm.css({top: t+ 'px', left: l + 'px'});
 	}
-	
+
 	function lightbox(){
-		
+
 		$('.open-lightbox').click(function(e){
 			e.preventDefault();
 			openLightbox($(this).attr('href'));
 		});
-		
+
 		$('.lightbox .close').click(function(e){
 			$(this).closest('.lightbox').fadeOut().css('z-index', 'auto');
 		});
 	}
-	
+
 	function saveSettings(e, holidays){
 
 		var utilDaysChecked = [];
@@ -131,19 +131,19 @@ hrs.ui.main = (function($, helpers, dao){
 
 		buildMonth();
 	}
-	
+
 	function monthInformation(){
 		$("#prev-month").click(function(){
 			currentDate.setMonth( currentDate.getMonth() - 1);
 			buildMonth();
 		});
-		
+
 		$("#next-month").click(function(){
 			currentDate.setMonth( currentDate.getMonth() + 1);
 			buildMonth();
 		});
 	}
-	
+
 	function saveImportedData(file){
 		var fr = new FileReader();
         fr.onload = function(e){
@@ -151,11 +151,11 @@ hrs.ui.main = (function($, helpers, dao){
     		dao.importData(content);
     		buildMonth();
         };
-        
+
         fr.readAsText(file, 'UTF-8');
         setTimeout(function(){location.reload();}, 500);
 	}
-	
+
 	function importExport(){
 
 		$("#link-export").click(function(){
@@ -169,14 +169,14 @@ hrs.ui.main = (function($, helpers, dao){
 		$("#import-data").click(function(e){
 			$("#inputfile-import-data").click();
 		});
-		
+
 		$('#proced-import').click(function(){
 			saveImportedData($("#confirm-import")[0].file);
 		});
 
 		$("#inputfile-import-data").change(function(e){
 			var files = e.target.files;
-			
+
 			if(files.length == 0) return;
 			$("#confirm-import")[0].file = files[0];
 			$("#inputfile-import-data").val('');
@@ -184,9 +184,9 @@ hrs.ui.main = (function($, helpers, dao){
 		});
 	}
 
-	
+
 	function holidays(){
-		hrs.ui.holidays.init({ $elem: $("#holidays-list"), 
+		hrs.ui.holidays.init({ $elem: $("#holidays-list"),
 							   holidays: dao.getHolidays(),
 							   callback: function(holidays){
 								   saveSettings(null, holidays);
