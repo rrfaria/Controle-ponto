@@ -1,18 +1,14 @@
 
 (function(){
     $(document).ready(function(){
-        console.log('funcionou');
         getPoints()
-        $('.time-register-cell-double .group').each(function(item){
-            console.log(item);
-        });
 
         function convertToTimeStamp(year, month, day, hours, minutes, seconds) {
             var date = new Date(year, month, day, hours, minutes, seconds);
             var timestamp = date.getTime();
             return timestamp;
         }
-
+        //depreciado - funcionava na versao antiga do convenia
         function doIt () {
             var btn = $('.my-period');
             if (!!btn.length > 0) {
@@ -71,11 +67,14 @@
 
         function getPoints() {
             try{
-                var auth = "Bearer "+ getCookie('colaborador_token');
-                var settings = {
+                let auth = "Bearer "+ getCookie('colaborador_token');
+                let period = window.location.pathname.replace('/meu-ponto/fechamento/','');
+                let employee_id = getCookie('colaborador_employee_id');
+                let company_id = getCookie('colaborador_company_id');
+                let settings = {
                     "async": true,
                     "crossDomain": true,
-                    "url": 'https://core.convenia.com.br/api/v1/companies/3973/employees/18828/points/periods/1405/points',
+                    "url": 'https://core.convenia.com.br/api/v1/companies/'+company_id+'/employees/'+employee_id+'/points/periods/'+period+'/points',
                     "method": "GET",
                     "headers": {
                         "Authorization": auth,
