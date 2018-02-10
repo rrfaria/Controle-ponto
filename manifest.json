@@ -37,7 +37,7 @@
 	],
 	"background": {
 		"scripts":[
-			"libs/jquery-1.9.0.min.js",
+			"libs/jquery-3.2.1.min.js",
 			"js/notification.js",
 			"libs/jquery.json-2.3.min.js",
 			"libs/jquery.maskedinput-1.3.js",
@@ -54,7 +54,7 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"*://colaborador.convenia.com.br/meu-ponto/fechamento/*"
+				"*://colaborador.convenia.com.br/meu-ponto/*"
 			],
 			"js": [
 				"libs/jquery-3.2.1.min.js",

@@ -1,49 +1,68 @@
 
 (function(){
     $(document).ready(function(){
-        getPoints()
+
+        function callPoint() {
+            let url  = window.location.pathname;
+            const REGEX = new RegExp(/^(\/meu\-ponto\/fechamento\/\d*)/g);
+            let res = REGEX.test(url);
+            if(res){
+                getPoints();
+            }
+        }
+
+        callPoint();
+
+        $(document).on('click','.time-register-cards .time-register-card', () => {
+            setTimeout(() => {
+                callPoint();
+            },1000)
+        });
+
+
+
 
         function convertToTimeStamp(year, month, day, hours, minutes, seconds) {
-            var date = new Date(year, month, day, hours, minutes, seconds);
-            var timestamp = date.getTime();
+            let date = new Date(year, month, day, hours, minutes, seconds);
+            let timestamp = date.getTime();
             return timestamp;
         }
         //depreciado - funcionava na versao antiga do convenia
         function doIt () {
-            var btn = $('.my-period');
+            let btn = $('.my-period');
             if (!!btn.length > 0) {
-                var $container = $('.my-period');
+                let $container = $('.my-period');
                 $container.prepend('<div class="c-button button -alternative -lg cp-import"><span class="text">Importar dados para CP</span></div>');
 
                 $('.cp-import').on('click', function () {
                     $('.time-register-row').each(function(){
-                        var dia= $(this).find('td:first-child').text();
+                        let dia= $(this).find('td:first-child').text();
 
                         dia = dia.substr(dia.indexOf(",") + 1);
                         dia = dia.split("/");
                         //0 - dia 1 - mes 2-ano
                         //converte dia para timestamp
-                        var date = new Date(dia[2], dia[1] -1, dia[0]);
-                        var timestamp = date.getTime();
-                        var keyDia = timestamp;
+                        let date = new Date(dia[2], dia[1] -1, dia[0]);
+                        let timestamp = date.getTime();
+                        let keyDia = timestamp;
 
-                        var horaentrada =  $(this).find('td:nth-child(2) .time-register-cell-double .group span:first-child').text();
+                        let horaentrada =  $(this).find('td:nth-child(2) .time-register-cell-double .group span:first-child').text();
                         horaentrada = horaentrada.split(":");
                         horaentrada =  convertToTimeStamp(dia[2], dia[1] -1, dia[0], horaentrada[0], horaentrada[1], horaentrada[2]);
 
-                        var horadoalmoco = $(this).find('td:nth-child(2) .time-register-cell-double .group span:nth-child(2)').text();
+                        let horadoalmoco = $(this).find('td:nth-child(2) .time-register-cell-double .group span:nth-child(2)').text();
                         horadoalmoco = horadoalmoco.split(":");
                         horadoalmoco = convertToTimeStamp(dia[2], dia[1] -1, dia[0], horadoalmoco[0], horadoalmoco[1], horadoalmoco[2]);
 
-                        var voltadoalmoco = $(this).find('td:nth-child(3) .time-register-cell-double .group span:first-child').text();
+                        let voltadoalmoco = $(this).find('td:nth-child(3) .time-register-cell-double .group span:first-child').text();
                         voltadoalmoco = voltadoalmoco.split(":");
                         voltadoalmoco = convertToTimeStamp(dia[2], dia[1] -1, dia[0], voltadoalmoco[0], voltadoalmoco[1], voltadoalmoco[2]);
 
-                        var horasaida = $(this).find('td:nth-child(3) .time-register-cell-double .group span:nth-child(2)').text();
+                        let horasaida = $(this).find('td:nth-child(3) .time-register-cell-double .group span:nth-child(2)').text();
                         horasaida = horasaida.split(":");
                         horasaida = convertToTimeStamp(dia[2], dia[1] -1, dia[0], horasaida[0], horasaida[1], horasaida[2]);
 
-                        var dados = {
+                        let dados = {
                             "entrada":horaentrada,
                             "ida_almoco":horadoalmoco,
                             "volta_almoco":voltadoalmoco,
@@ -85,31 +104,28 @@
                     },
                     "processData": false,
                 }
-                var request = $.ajax(settings);
+                let request = $.ajax(settings);
 
-                request.done(function( msg) {
-                    var datas =msg.data.dates;
-                    var totalHoras = 0;
+                request.done(function(response) {
+                    let datas =response.data.dates;
+                    let totalHoras = 0;
                     for(data of datas) {
-                        if(data.date = '2017-11-17'){
-                            debugger;
-                        }
 
-                        var hora = parseInt(data.hours.toString().split('.')[0]);
-                        var min =  parseInt(data.hours.toString().split('.')[1]) || 0;
-                        var extra =0;
-                        var lossHour = 0;
-                        var minutes = 0;
-                        var extrahour  = 0;
+                        let hora = parseInt(data.hours.toString().split('.')[0]);
+                        let min =  parseInt(data.hours.toString().split('.')[1]) || 0;
+                        let extra =0;
+                        let lossHour = 0;
+                        let minutes = 0;
+                        let extrahour  = 0;
 
                         if(hora>=8) {
-                            var extrahour = hora - 8;
-                            var minutes = parseInt(min) + parseInt(convertToMin(extrahour));
+                            let extrahour = hora - 8;
+                            let minutes = parseInt(min) + parseInt(convertToMin(extrahour));
                             totalHoras += minutes;
                             extra = (minutes>0)?convertToHour(minutes):0;
                         }else{
-                            var lossHour = 7 - hora;
-                            var minutes = parseInt(min) + parseInt(convertToMin(lossHour));
+                            let lossHour = 7 - hora;
+                            let minutes = parseInt(min) + parseInt(convertToMin(lossHour));
                             totalHoras -= minutes;
                             extra =  (minutes>0)? " - "+ convertToHour(minutes):0;
                         }
@@ -117,7 +133,20 @@
                         //console.log('horas: '+data.hours +' dia: '+data.date+' extra:'+ extra);
                     }
                    // console.log('Horas Totais: '+convertToHour(totalHoras));
-                    $('.my-period').prepend('<button class="c-button button -alternative -lg"><!----> <span class="text">'+ convertToHour(totalHoras) + '</span> <!----></button>');
+                   $('.my-period').prepend(`<div class="c-input field -error">
+                                                <label for="diasDeFolga" class="label">
+                                                    <span>Dia de Folga</span>
+                                                </label>
+                                                <div class="inner">
+                                                    <input id="diasDeFolga" placeholder="" autocomplete="off" class="input" type="text">
+                                                </div>
+                                            </div>`);
+                    $('.my-period').prepend(`<button class="c-button button -alternative -lg">
+                                                <span class="text">${convertToHour(totalHoras)}</span>
+                                            </button>`);
+
+
+
                 });
 
                 request.fail(function( jqXHR, textStatus ) {
@@ -126,6 +155,10 @@
             } catch(err){
                 console.log('erro',err);
             }
+
+        }
+
+        function handleDates () {
 
         }
 
@@ -142,8 +175,8 @@
         }
 
         function getCookie(name) {
-            var value = "; " + document.cookie;
-            var parts = value.split("; " + name + "=");
+            let value = "; " + document.cookie;
+            let parts = value.split("; " + name + "=");
             if (parts.length == 2) return parts.pop().split(";").shift();
         }
     });
